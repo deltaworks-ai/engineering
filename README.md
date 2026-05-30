@@ -1,6 +1,6 @@
 # deltaworks.engineering
 
-**The source of truth**  
+**the source of truth**  
 Research, theory, architectural reasoning, and falsification.
 
 Frontier engineering for local AI systems.  
@@ -14,3 +14,6 @@ This layer defines:
 
 If a claim cannot be defended here,  
 it is not allowed downstream.
+---
+
+DELTAWORKS — Engineering the stack
