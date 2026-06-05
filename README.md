@@ -15,8 +15,5 @@ This layer defines:
 If a claim cannot be defended here,  
 it is not allowed downstream.
 ---
-
-
-    
-　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　D　Ξ　L　T　Λ　 W　Ω　R　K　S  
-　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　e n g i n e e r i n g　t h e　s t a c k
+D Ξ L T Λ W Ω R K S  
+engineering|the|stack
