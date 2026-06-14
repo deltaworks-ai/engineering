@@ -3,7 +3,7 @@
 **the source of truth**  
 Research, theory, architectural reasoning, and falsification.
 
-Frontier engineering for AI systems.  
+Frontier engineering for autonomous systems.  
 Architecture is defined here — not optimized, not negotiated.
 
 This layer defines:
