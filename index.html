@@ -1,119 +1,245 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>deltaworks.engineering</title>
-<meta name="description" content="source of truth. Research, theory, and architectural reasoning.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-  :root{--void:#06090a; --signal:#4fe6dd; --bright:#7ff0e8; --core:#dffbf6; --deep:#159a90;
-    --mono:"JetBrains Mono",ui-monospace,monospace; --sans:"Space Grotesk",system-ui,sans-serif;
-    --wordmark:"Segoe UI",system-ui,-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",Arial,sans-serif;}
-  *{box-sizing:border-box;}
-  html,body{margin:0;height:100%;}
-  body{min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:46px; text-align:center; padding:64px 32px 120px; position:relative; overflow:hidden; background:var(--void); background-image:radial-gradient(120% 70% at 50% 44%, rgba(40,165,153,.10) 0%, rgba(15,82,78,.04) 36%, rgba(6,9,10,0) 66%); color:#c3d0ce; font-family:var(--sans); font-weight:300;}
-  .vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(130% 100% at 50% 46%, rgba(0,0,0,0) 48%, rgba(0,0,0,.7) 100%);}
-  .mark{animation:breathe 5s ease-in-out infinite; filter:drop-shadow(0 0 6px var(--bright)) drop-shadow(0 0 18px var(--signal)) drop-shadow(0 0 42px var(--deep)); position:relative;}
-  @keyframes breathe{0%,100%{opacity:.9;transform:scale(1);}50%{opacity:1;transform:scale(1.015);}}
-  .domain{position:relative; font-family:var(--wordmark); font-weight:500; font-size:clamp(34px,7vw,56px); letter-spacing:.04em; color:var(--core); text-shadow:0 0 16px rgba(79,230,221,.3),0 0 44px rgba(21,154,144,.32);}
-  .domain .tld{color:var(--signal);}
-  .tagline{position:relative; font-size:clamp(15px,2.3vw,22px); letter-spacing:.5em; text-transform:lowercase; color:rgba(159,212,206,.78); padding-left:.5em;}
-  .cipher{position:relative; display:flex; align-items:center; gap:clamp(16px,3.4vw,30px); transition:transform .25s ease;}
-  .cipher.lock{transform:scale(1.07);}
-  .cell{font-family:var(--mono); font-size:clamp(30px,6.4vw,46px); width:1.1em; text-align:center; color:rgba(143,225,219,.6); text-shadow:0 0 14px var(--deep); font-variant-numeric:tabular-nums; transition:color .25s ease, text-shadow .25s ease;}
-  .cipher.lock .cell{color:var(--core); text-shadow:0 0 14px var(--bright), 0 0 34px var(--signal), 0 0 60px var(--deep);}
-  .sep{font-family:var(--mono); font-size:clamp(30px,6.4vw,46px); color:rgba(79,230,221,.22); line-height:1; transition:color .25s ease;}
-  .cipher.lock .sep{color:rgba(127,240,232,.7);}
-  .verdict{position:relative; height:16px; margin-top:-26px; font-family:var(--mono); font-size:12px; letter-spacing:.42em; text-transform:uppercase; color:rgba(127,240,232,.9); opacity:0; transition:opacity .3s ease; padding-left:.42em; text-shadow:0 0 14px var(--deep);}
-  .verdict.show{opacity:1;}
-  .home{position:absolute; left:0; right:0; bottom:34px; display:flex; align-items:center; justify-content:center; gap:14px; text-decoration:none; opacity:.55; transition:opacity .2s;}
-  .home:hover{opacity:1;}
-  .home span{font-family:var(--mono); font-size:12px; letter-spacing:.18em; color:rgba(140,182,178,.8);}
-</style>
+<script src="./support.js"></script>
 </head>
 <body>
-  <div class="vignette"></div>
-  <div class="mark"><svg width="100" height="100" viewBox="0 0 100 100"><path d="M50 14 L86 80 L14 80 Z" fill="rgba(79,230,221,.05)" stroke="#dffbf6" stroke-width="5" stroke-linejoin="round"/></svg></div>
-  <div class="domain">deltaworks<span class="tld">.engineering</span></div>
-  <div class="tagline">source of truth</div>
-  <div class="cipher" id="cipher">
-    <span class="cell" id="c1">Ξ</span>
-    <span class="sep">·</span>
-    <span class="cell" id="c2">Λ</span>
-    <span class="sep">·</span>
-    <span class="cell" id="c3">Ω</span>
-  </div>
-  <div class="verdict" id="verdict">combination accepted</div>
-  <a class="home" href="https://deltaworks.it" title="the stack — deltaworks.it">
-    <svg width="20" height="20" viewBox="0 0 100 100" style="filter:drop-shadow(0 0 5px #159a90)"><path d="M50 14 L86 80 L14 80 Z" fill="none" stroke="#4fe6dd" stroke-width="6" stroke-linejoin="round"/></svg>
-    <span>deltaworks.it</span>
-  </a>
-<script>
-(function(){
-  /* flip MODE to 'countdown' to reveal a live H:M:S timer instead of the cipher */
-  var MODE = 'cipher';   /* 'cipher' | 'countdown' */
-  var c1=document.getElementById('c1'), c2=document.getElementById('c2'), c3=document.getElementById('c3');
-  var cipher=document.getElementById('cipher'), verdict=document.getElementById('verdict');
-  var pad=function(n){return String(n).padStart(2,'0');};
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    html, body { margin: 0; background: #06090a; }
+    * { box-sizing: border-box; }
+  </style>
+</helmet>
 
-  if (MODE === 'countdown') {
-    cipher.style.gap='clamp(20px,4vw,34px)';
-    var target=new Date('2026-06-22T00:00:00').getTime();
-    var tick=function(){ var diff=Math.max(0,target-Date.now());
-      var h=Math.floor(diff/3600000), m=Math.floor((diff%3600000)/60000), s=Math.floor((diff%60000)/1000);
-      c1.textContent=pad(h); c2.textContent=pad(m); c3.textContent=pad(s);
-    }; tick(); setInterval(tick,1000);
-    return;
+<div style="min-height:100vh; background:#06090a;">
+
+  <!-- HEADER -->
+  <header style="position:sticky; top:0; z-index:10; background:rgba(6,9,10,0.96); backdrop-filter:blur(16px); border-bottom:1px solid rgba(79,230,221,0.07);">
+    <div style="max-width:760px; margin:0 auto; padding:0 40px; height:60px; display:flex; align-items:center; gap:20px;">
+      <div onClick="{{ goHome }}" style="display:flex; align-items:center; gap:10px; cursor:pointer; flex:none;">
+        <div style="filter:drop-shadow(0 0 3px rgba(79,230,221,0.50));">
+          <svg width="18" height="18" viewBox="0 0 100 100" style="display:block;"><path d="M50 14 L86 80 L14 80 Z" fill="rgba(79,230,221,0.05)" stroke="#dffbf6" stroke-width="7" stroke-linejoin="round"></path></svg>
+        </div>
+      </div>
+      <div style="width:1px; height:22px; background:rgba(79,230,221,0.10);"></div>
+      <div style="flex:1;">
+        <span style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.22em; color:rgba(79,230,221,0.55);">deltaworks</span><span style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.22em; color:#4fe6dd;">.engineering</span>
+      </div>
+      <div style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.30em; text-transform:uppercase; color:rgba(95,217,207,0.25);">source of truth</div>
+    </div>
+  </header>
+
+  <!-- OVERVIEW -->
+  <sc-if value="{{ showOverview }}" hint-placeholder-val="{{ true }}">
+    <main style="max-width:760px; margin:0 auto; padding:0 40px 120px;">
+
+      <!-- intro block -->
+      <div style="padding:56px 0 48px; border-bottom:1px solid rgba(79,230,221,0.07); margin-bottom:0;">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:22px; font-weight:500; letter-spacing:0.06em; color:rgba(223,251,246,0.88); margin-bottom:14px;">Architecture is defined here.</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:11px; line-height:1.9; color:rgba(95,217,207,0.38); max-width:520px;">
+          Not optimized. Not negotiated.<br>
+          If a claim cannot be defended here, it is not allowed downstream.
+        </div>
+      </div>
+
+      <!-- article list -->
+      <sc-for list="{{ articles }}" as="art" hint-placeholder-count="4">
+        <div onClick="{{ art.open }}" style="display:grid; grid-template-columns:36px 1fr; gap:0 24px; padding:32px 0; border-bottom:1px solid rgba(79,230,221,0.06); cursor:pointer;" style-hover="background:rgba(79,230,221,0.014); margin:0 -16px; padding-left:16px; padding-right:16px;">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:rgba(79,230,221,0.18); padding-top:5px; text-align:right;">{{ art.num }}</div>
+          <div>
+            <div style="display:flex; align-items:baseline; justify-content:space-between; gap:16px; margin-bottom:10px;">
+              <div style="font-family:system-ui,-apple-system,sans-serif; font-size:17px; font-weight:500; line-height:1.30; color:rgba(215,244,238,0.92); letter-spacing:-0.01em; text-wrap:pretty;">{{ art.title }}</div>
+              <div style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.18em; color:rgba(95,217,207,0.22); white-space:nowrap; flex-shrink:0;">{{ art.dateStr }}</div>
+            </div>
+            <div style="font-family:system-ui,-apple-system,sans-serif; font-size:14px; line-height:1.68; color:rgba(150,210,198,0.48); margin-bottom:14px;">{{ art.premise }}</div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <div style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.12em; color:rgba(79,230,221,0.32);">{{ art.tagsStr }}</div>
+              <span style="color:rgba(79,230,221,0.15); font-size:9px;">·</span>
+              <div style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.12em; color:rgba(95,217,207,0.22);">{{ art.readStr }}</div>
+              <span style="color:rgba(79,230,221,0.15); font-size:9px;">·</span>
+              <div style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.12em; color:rgba(79,230,221,0.38);">{{ art.status }}</div>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+
+    </main>
+  </sc-if>
+
+  <!-- DETAIL -->
+  <sc-if value="{{ showDetail }}" hint-placeholder-val="{{ false }}">
+    <main style="max-width:760px; margin:0 auto; padding:0 40px 120px;">
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:40px 0 52px;">
+        <button onClick="{{ back }}" style="background:transparent; border:none; padding:0; cursor:pointer; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.20em; color:rgba(79,230,221,0.32);" style-hover="color:#4fe6dd;">← engineering</button>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.22em; color:rgba(95,217,207,0.22);">{{ artStatus }}</div>
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px;">
+        <span style="font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.16em; color:rgba(79,230,221,0.38);">{{ artTagsStr }}</span>
+      </div>
+      <h1 style="font-family:system-ui,-apple-system,sans-serif; font-size:28px; font-weight:500; line-height:1.24; color:rgba(215,244,238,0.93); margin:0 0 18px; letter-spacing:-0.015em; text-wrap:pretty;">{{ artTitle }}</h1>
+      <div style="display:flex; gap:10px; align-items:center; margin-bottom:52px;">
+        <span style="font-family:'JetBrains Mono',monospace; font-size:9px; color:rgba(95,217,207,0.32);">{{ artDate }}</span>
+        <span style="color:rgba(79,230,221,0.14); font-size:9px;">·</span>
+        <span style="font-family:'JetBrains Mono',monospace; font-size:9px; color:rgba(95,217,207,0.32);">{{ artRead }}</span>
+      </div>
+      <div style="height:1px; background:linear-gradient(90deg,rgba(79,230,221,0.16),rgba(79,230,221,0)); margin-bottom:52px;"></div>
+      <div style="max-width:640px;">{{ articleBody }}</div>
+    </main>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{ &quot;$preview&quot;: { &quot;width&quot;: 860, &quot;height&quot;: 880 } }">
+class Component extends DCLogic {
+  state = { id: null };
+
+  articles = [
+    {
+      id: 1,
+      title: 'The Δ chain as a type system',
+      premise: 'Treating the layer sequence as a compile-time constraint — not a process guideline — eliminates an entire class of architectural errors before they occur.',
+      tags: ['architecture', 'theory', 'constraints'],
+      status: 'defended',
+      read: 10, date: '2026-05-28',
+      body: [
+        { t: 'lede', c: 'A process that can be skipped is not a process. It is a suggestion. The Δ chain is not a suggestion.' },
+        { t: 'p', c: 'Most engineering cultures describe their processes in documentation. Documentation can be ignored. The Δ chain is encoded differently: each layer defines a type constraint that the output of the previous layer must satisfy before it is accepted as input. If the constraint fails, the claim is refused — not flagged, not reviewed, refused.' },
+        { t: 'h2', c: '01 — the constraint model' },
+        { t: 'p', c: 'In type theory, a type is a set of values along with the operations that are valid on those values. Applying this to engineering: each layer defines which claims are valid inputs, performs its operations, and emits outputs that are typed for the next layer. A claim that arrives out of sequence is a type error.' },
+        { t: 'code', lang: 'pseudo', c: 'type EngineeringClaim   = { isDefensibleByTheory: true }\ntype DevObservation     = EngineeringClaim & { isObservedUnderStress: true }\ntype BuildCommitment    = DevObservation   & { isFreezableAsReference: true }\ntype StoreOutcome       = BuildCommitment  & { isFinalOutcome: true }\n\n// A claim cannot reach Build without passing Engineering and Dev.\n// This is not policy. It is structure.' },
+        { t: 'h2', c: '02 — why this matters' },
+        { t: 'p', c: 'When teams treat architecture as a checklist, retroactive justification becomes possible. "We built this first and it works, so the theory must support it." This is the inversion the Δ chain prevents. Theory is not reverse-engineered from implementations. Implementations are derived from theory.' },
+        { t: 'h2', c: '03 — limits of this model' },
+        { t: 'p', c: 'The type system metaphor breaks down at the human boundary. Types are enforced by compilers; architectural constraints are enforced by culture. The value of encoding the chain as a type model is not that it compiles — it is that it forces explicit articulation of what each layer requires, which makes violations visible.' },
+      ]
+    },
+    {
+      id: 2,
+      title: 'On the impossibility of retroactive justification',
+      premise: 'Why "it works in practice" is not a defense, and why accepting it as one corrupts the entire downstream chain.',
+      tags: ['theory', 'falsification', 'reasoning'],
+      status: 'defended',
+      read: 7, date: '2026-05-04',
+      body: [
+        { t: 'lede', c: '"It works in practice" is a statement about observation, not about understanding. These are not the same thing.' },
+        { t: 'p', c: "A system that works for unknown reasons is not a defended system. It is a deferred failure. The failure has been postponed until the conditions that happened to make it work no longer apply — and because the reason was never understood, there is no mechanism to detect when those conditions change." },
+        { t: 'h2', c: '01 — the retroactive trap' },
+        { t: 'p', c: 'Retroactive justification follows a consistent pattern: an implementation succeeds, then a theory is constructed to explain it. This reversal is catastrophic because the theory is constrained by the implementation. It can only explain what already exists. It cannot identify what is impossible, what is fragile, or what will fail under conditions the implementation has not yet encountered.' },
+        { t: 'code', lang: 'pseudo', c: '// Forward direction (correct)\ntheory.define_limits()\ntheory.derive_implementation()\nimplementation.observe()\nobservation.validate_or_falsify(theory)\n\n// Retroactive direction (invalid)\nimplementation.observe()\nobservation.construct_theory_to_fit()\ntheory.declare_defended()  // → NOT DEFENDED' },
+        { t: 'h2', c: '02 — why refusal is correct here' },
+        { t: 'p', c: 'When a claim arrives at Engineering without prior theoretical grounding, the correct response is refusal — not review, not deferral, not "this is a special case." Refusal is not failure. It is the system functioning correctly. The claim is returned to its origin with a single instruction: defend it first.' },
+      ]
+    },
+    {
+      id: 3,
+      title: 'Memory locality as a first-class architectural constraint',
+      premise: 'In local AI inference, memory hierarchy is not an implementation detail. It is the primary determinant of whether a system is architecturally possible.',
+      tags: ['systems', 'inference', 'architecture'],
+      status: 'defended',
+      read: 12, date: '2026-04-17',
+      body: [
+        { t: 'lede', c: 'A model that fits in VRAM is a different system than one that does not. This distinction must be resolved at the architecture layer, not discovered at runtime.' },
+        { t: 'p', c: 'The NVMe → RAM → GPU memory hierarchy is not a performance consideration. It is a state guarantee model. Each boundary crossing introduces latency, bandwidth constraints, and state uncertainty. An architecture that does not account for these boundaries is not an incomplete architecture — it is not an architecture at all.' },
+        { t: 'h2', c: '01 — the boundary model' },
+        { t: 'p', c: 'NVMe provides persistence but no execution guarantee. RAM provides working state but no inference guarantee. VRAM provides the only guaranteed inference execution context. The Δ memory model treats each boundary as a type transition: data is not the same entity at rest on NVMe as it is active in VRAM.' },
+        { t: 'code', lang: 'pseudo', c: 'type PersistentState = { location: NVMe,  executable: false }\ntype WorkingState    = { location: RAM,   executable: false }\ntype InferenceState  = { location: VRAM,  executable: true  }\n\n// Inference is only valid in InferenceState.\n// Claiming otherwise is a type error at the architecture layer.' },
+        { t: 'p', c: 'This means that VRAM capacity is not a hardware specification to be optimized around. It is a hard constraint that determines the boundary of what is architecturally possible for a given system. Systems that exceed it do not degrade gracefully — they exit the guarantee model.' },
+      ]
+    },
+    {
+      id: 4,
+      title: 'Falsification as the primary engineering discipline',
+      premise: 'Verifying that a system works is easy and insufficient. Determining the exact conditions under which it fails is the actual engineering problem.',
+      tags: ['falsification', 'theory', 'limits'],
+      status: 'defended',
+      read: 8, date: '2026-03-29',
+      body: [
+        { t: 'lede', c: 'Every system that has not been falsified is merely unexamined. This is not a virtue.' },
+        { t: 'p', c: 'Verification answers the question: "Does this system work under these conditions?" This is useful. It is not sufficient. The engineering question is: "Under exactly which conditions does this system fail, and what is the mechanism of that failure?" Without the answer, the system\'s behavior is bounded only by the tests that have been run — and tests are always finite.' },
+        { t: 'h2', c: '01 — the limit-first principle' },
+        { t: 'p', c: 'Define limits before capabilities. A claim that specifies what a system can do without specifying what it cannot do is not a specification. It is a marketing statement. Engineering begins when limits are made explicit and testable.' },
+        { t: 'h2', c: '02 — the role of .engineering in the chain' },
+        { t: 'p', c: '.engineering is the layer where falsification occurs. Not optimization, not feature development, not user research. If a claim survives falsification at this layer, it earns the right to proceed to .dev for stress observation. If it cannot be falsified — if no test could possibly prove it wrong — it is not an engineering claim. It is a belief.' },
+      ]
+    },
+  ];
+
+  fmtDate(iso) {
+    return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
   }
 
-  /* ─── the combination lock ───
-     three glyphs scramble independently; periodically they cascade-lock
-     onto T · B · A together, confirm ("combination accepted"), then release. */
-  var charset="ΞΛΩΔΣΦΨΘΠ#@%&/\\<>{}[]=+*0123456789".split('');
-  var TARGET=['T','B','A'];
-  var els=[c1,c2,c3];
-  var rnd=function(){ return charset[Math.floor(Math.random()*charset.length)]; };
-  var locked=false;
-  var scrambleTimers=[];
-
-  function startScramble(){
-    locked=false;
-    els.forEach(function(el,i){
-      scrambleTimers[i]=setInterval(function(){ if(!locked) el.textContent=rnd(); }, 95 + i*35);
-    });
+  renderBody(art) {
+    const E = React.createElement;
+    const mono = "'JetBrains Mono', ui-monospace, monospace";
+    const sans = "system-ui, -apple-system, sans-serif";
+    return E(React.Fragment, null,
+      ...art.body.map((b, i) => {
+        if (b.t === 'lede') return E('p', { key: i, style: {
+          fontFamily: sans, fontSize: '18px', lineHeight: 1.72,
+          color: 'rgba(205,238,230,0.88)', margin: '0 0 36px',
+          paddingBottom: '36px', borderBottom: '1px solid rgba(79,230,221,0.08)',
+        }}, b.c);
+        if (b.t === 'p') return E('p', { key: i, style: {
+          fontFamily: sans, fontSize: '15.5px', lineHeight: 1.82,
+          color: 'rgba(170,220,210,0.65)', margin: '0 0 22px',
+        }}, b.c);
+        if (b.t === 'h2') return E('div', { key: i, style: {
+          fontFamily: mono, fontSize: '9px', letterSpacing: '0.34em',
+          textTransform: 'uppercase', color: 'rgba(79,230,221,0.45)',
+          margin: '48px 0 16px',
+        }}, b.c);
+        if (b.t === 'code') return E('div', { key: i, style: { margin: '4px 0 28px', position: 'relative' }},
+          E('div', { style: {
+            position: 'absolute', top: '10px', right: '14px',
+            fontFamily: mono, fontSize: '8px', letterSpacing: '0.22em',
+            textTransform: 'uppercase', color: 'rgba(79,230,221,0.22)',
+          }}, b.lang),
+          E('pre', { style: {
+            background: 'rgba(255,255,255,0.018)',
+            border: '1px solid rgba(79,230,221,0.07)',
+            borderLeft: '2px solid rgba(79,230,221,0.20)',
+            borderRadius: '2px', padding: '20px 24px', margin: 0,
+            overflowX: 'auto', fontFamily: mono, fontSize: '12px',
+            lineHeight: 1.76, color: 'rgba(175,225,215,0.70)',
+            whiteSpace: 'pre',
+          }}, E('code', null, b.c))
+        );
+        return null;
+      })
+    );
   }
-  function stopScramble(){ scrambleTimers.forEach(clearInterval); scrambleTimers=[]; }
 
-  function lockSequence(){
-    if(locked) return;
-    locked=true; stopScramble();
-    /* cascade: each cell flickers a few frames then snaps to its target */
-    els.forEach(function(el,i){
-      setTimeout(function(){
-        var n=0, total=5+Math.floor(Math.random()*4);
-        var iv=setInterval(function(){ el.textContent=rnd();
-          if(++n>=total){ clearInterval(iv); el.textContent=TARGET[i];
-            if(i===els.length-1){ confirm(); } }
-        }, 60);
-      }, i*260);
-    });
+  renderVals() {
+    const { id } = this.state;
+    const art = id ? this.articles.find(a => a.id === id) : null;
+    return {
+      showOverview: !art,
+      showDetail:   !!art,
+      articles: this.articles.map((a, i) => ({
+        ...a,
+        num:     String(i + 1).padStart(2, '0'),
+        tagsStr: a.tags.join(' · '),
+        dateStr: this.fmtDate(a.date),
+        readStr: a.read + ' min',
+        status:  'defended',
+        open: () => this.setState({ id: a.id }),
+      })),
+      goHome: () => this.setState({ id: null }),
+      back:   () => this.setState({ id: null }),
+      artTitle:   art?.title ?? '',
+      artDate:    art ? this.fmtDate(art.date) : '',
+      artRead:    art ? art.read + ' min read' : '',
+      artTagsStr: art ? art.tags.join(' · ') : '',
+      artStatus:  'defended',
+      articleBody: art ? this.renderBody(art) : null,
+    };
   }
-  function confirm(){
-    cipher.classList.add('lock'); verdict.classList.add('show');
-    setTimeout(function(){
-      cipher.classList.remove('lock'); verdict.classList.remove('show');
-      setTimeout(startScramble, 350);
-    }, 1500);
-  }
-
-  startScramble();
-  function schedule(){ var wait=7000 + Math.random()*6000;
-    setTimeout(function(){ lockSequence(); setTimeout(schedule, 4500); }, wait); }
-  schedule();
-})();
+}
 </script>
 </body>
 </html>
